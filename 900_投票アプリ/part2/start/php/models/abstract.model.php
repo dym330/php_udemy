@@ -2,7 +2,7 @@
 namespace model;
 use Error;
 
-abstract class AbctractModel {
+abstract class AbstractModel {
   protected static $SESSION_NAME = null;
 
   public static function setSession($val) {
@@ -16,7 +16,15 @@ abstract class AbctractModel {
     return $_SESSION[static::$SESSION_NAME] ?? null;
   }
 
-  public static function clearSesion() {
+  public static function clearSession() {
     static::setSession(null);
+  }
+
+  public static function getSessionAndFlush() {
+    try {
+      return static::getSession();
+    } finally {
+      static::clearSession();
+    }
   }
 }

@@ -1,6 +1,8 @@
 <?php 
 namespace controller\login;
 use lib\Auth;
+use lib\Msg;
+use model\UserModel;
 
 function get() {
     require_once SOURCE_BASE . 'views/login.php';
@@ -11,8 +13,10 @@ function post() {
     $pwd = get_param('pwd', '');
 
     if (Auth::login($id, $pwd)) {
-        echo '認証成功';
+        $user = UserModel::getSession();
+        Msg::push(Msg::INFO, "{$user->nickname}さん、ようこそ。");
+        redirect(GO_HOME);
     } else {
-        echo '認証失敗';
+        redirect(GO_REFERER);
     }
 }
