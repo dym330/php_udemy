@@ -3,7 +3,7 @@ function validate_form() {
     const $inputs = document.querySelectorAll('.validate-target');
     const $form = document.querySelector('.validate-form');
 
-    if (!$form) {
+    if(!$form) {
         return;
     }
 
@@ -12,13 +12,20 @@ function validate_form() {
         $input.addEventListener('input', function(event) {
             const $target = event.currentTarget;
             const $feedback = $target.nextElementSibling;
-            $feedback.textContent = '';
-            console.log($target.validity);
+            
+            activateSubmitBtn($form);
+
+            if(!$feedback.classList.contains('invalid-feedback')) {
+                return;
+            }
+
             if($target.checkValidity()) {
     
                 $target.classList.add('is-valid');
                 $target.classList.remove('is-invalid');
     
+                $feedback.textContent = '';
+                
             } else {
     
                 $target.classList.add('is-invalid');
@@ -34,20 +41,26 @@ function validate_form() {
                     $feedback.textContent = '半角英数字で入力してください。';
                 } 
             }
-
-            
             
         });
-        activateSubmitBtn($form);
+
     }
+
+    activateSubmitBtn($form);
     
 }
 
 function activateSubmitBtn($form) {
+
     const $submitBtn = $form.querySelector('[type="submit"]');
-    if ($form.checkValidity()) {
+
+    if($form.checkValidity()) {
+
         $submitBtn.removeAttribute('disabled');
+    
     } else {
+
         $submitBtn.setAttribute('disabled', true);
+
     }
 }

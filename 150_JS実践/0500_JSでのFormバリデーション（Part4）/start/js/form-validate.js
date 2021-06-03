@@ -1,7 +1,10 @@
 init();
 function init() {
-    const $input = document.querySelector('.validate-target');
-    $input.addEventListener('input', function(event) {
+    const $inputs = document.querySelectorAll('.validate-target');
+
+    for(const $input of $inputs) {
+        console.dir($input)
+        $input.addEventListener('input', function(event) {
         const $target = event.currentTarget;
         console.log($target.validity);
         if($target.checkValidity()) {
@@ -27,4 +30,5 @@ function init() {
         
     });
     console.dir($input);
+    }
 }
